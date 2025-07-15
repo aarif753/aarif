@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - AI Photo Editor</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-container {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .requests-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .request-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 1rem;
+            background: white;
+        }
+        
+        .request-image {
+            max-width: 100%;
+            max-height: 200px;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .request-meta {
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .request-status {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .status-processing {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .action-buttons button {
+            flex: 1;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        #imageEditorModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+        
+        .modal-content {
+            background: white;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 10px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        #editedImagePreview {
+            max-width: 100%;
+            max-height: 400px;
+            display: block;
+            margin: 1rem auto;
+        }
+
+        @media (max-width: 768px) {
+            .requests-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                padding: 1rem;
+                margin: 1rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI Photo Editor Admin</h1>
+            <p>Manage user photo editing requests</p>
+        </header>
+
+        <div class="admin-container">
+            <h2>Pending Requests</h2>
+            <div class="requests-list" id="requestsList">
+                <!-- Requests will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Editor Modal -->
+    <div id="imageEditorModal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Edit Image</h2>
+            <div class="request-meta">
+                <strong>Request ID:</strong> <span id="modalRequestId"></span><br>
+                <strong>Email:</strong> <span id="modalEmail"></span><br>
+                <strong>Instructions:</strong> <span id="modalInstructions"></span>
+            </div>
+            
+            <div class="image-editor-container">
+                <div class="image-column">
+                    <h3>Original Image</h3>
+                    <img id="originalImagePreview" class="request-image">
+                </div>
+                <div class="image-column">
+                    <h3>Edited Image</h3>
+                    <input type="file" id="editedImageUpload" accept="image/*" style="margin-bottom: 1rem;">
+                    <img id="editedImagePreview" class="request-image">
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button id="cancelEditBtn" style="background: #dc3545;">Cancel</button>
+                <button id="submitEditedImageBtn">Complete Request</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
